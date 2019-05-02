@@ -1,0 +1,25 @@
+<?php 
+
+$argv = $_SERVER["argv"];
+array_shift($argv);
+$name= $argv[0];
+if($name){
+	$table = strtolower($name);
+	$content = '<?php 
+use \Illuminate\Database\Eloquent\Model as Eloquent;
+
+class '.$name.' extends Eloquent {
+
+	protected $table = "'.$table.'s"; // table name
+
+}';
+
+	$fp = fopen("application/models/{$name}.php","w+");
+	fwrite($fp, $content);
+	fclose($fp);
+	echo "Model {$name} criado com sucesso! \n";
+	exec("composer dump-autoload");
+}else{
+	echo "Digite o nome do modelo \n";
+}
+	
